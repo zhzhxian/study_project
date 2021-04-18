@@ -1,0 +1,13 @@
+spring:
+  data:
+    elasticsearch:
+      client:
+        reactive:
+          endpoints: localhost:9200
+          connection-timeout: 10000
+          socket-timeout: 1000
+  elasticsearch:
+    rest:
+      uris: localhost:9200
+  thymeleaf:
+    cache: false
