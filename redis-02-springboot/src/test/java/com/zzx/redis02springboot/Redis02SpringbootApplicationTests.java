@@ -2,6 +2,7 @@ package com.zzx.redis02springboot;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zzx.redis02springboot.entity.User;
+import com.zzx.redis02springboot.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +10,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @SpringBootTest
 @Slf4j
 class Redis02SpringbootApplicationTests {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Test
     void contextLoads() {
@@ -53,4 +60,18 @@ class Redis02SpringbootApplicationTests {
         log.info("user--->{}", redisTemplate.opsForValue().get("user"));
     }
 
+    @Test
+    public void testHmset() {
+        Map<String, Object> data = new HashMap<>();
+        data.put("name", "张三");
+        data.put("age", 20);
+        data.put("address", "成都");
+        redisUtil.hmset("personinfo", data);
+    }
+
+    @Test
+    public void testHmget() {
+        Map<Object, Object> data = redisUtil.hmget("personinfo");
+        log.info("data:{}", data);
+    }
 }
